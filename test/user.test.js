@@ -108,7 +108,7 @@ after(async () => {
 
 // TESTS FOR USERS AUTHENTICATION
 describe('Users test', () => {
-  it('should  create a user if  admin', async () => {
+  it('Admin can create an employee user account.', async () => {
     await request(app)
       .post('/api/v1/auth/create-user')
       .set('authorization', `Bearer ${token}`)
@@ -127,7 +127,7 @@ describe('Users test', () => {
   });
 
 
-  it('it should not create a user if not admin', async () => {
+  it('Employee cannot create employee user cannot', async () => {
     const userRes = await request(app)
       .post('/api/v1/auth/signin')
       .send({
@@ -154,7 +154,7 @@ describe('Users test', () => {
       .expect(401);
   });
 
-  it('should login user', async () => {
+  it('Admin/Employees can sign in.', async () => {
     const loginRes = await request(app)
       .post('/api/v1/auth/signin')
       .send({
@@ -165,7 +165,7 @@ describe('Users test', () => {
     expect(loginRes.body.data).to.have.property('token');
   });
 
-  it('should not login user with wrong details', async () => {
+  it('Admin/Employee cannot login with wrong details', async () => {
     await request(app)
       .post('/api/v1/auth/signin')
       .send({
@@ -175,7 +175,7 @@ describe('Users test', () => {
       .expect(401);
   });
 
-  it('should not create user if admin user is not authenticated', async () => {
+  it('Admin cannot create user if not authenticated', async () => {
     await request(app)
       .post('/api/v1/auth/create-user')
       .send({
@@ -197,7 +197,7 @@ describe('Users test', () => {
 /** *********************** ARTICLE TESTS***************** */
 
 describe('Articles', () => {
-  it('should post articles if user is authenticated', async () => {
+  it('Employees can write and post articles.', async () => {
     const title = 'my first article';
     const content = 'this is a test for article posting';
     const articleRes = await request(app)
@@ -212,7 +212,7 @@ describe('Articles', () => {
     expect(articleRes.body.data.title).to.equal(title.toUpperCase());
   });
 
-  it('should not post articles if user is not authenticated', async () => {
+  it('Employees cannot post articles if not authenticated', async () => {
     const title = 'my first article';
     const content = 'this is a test for article posting';
     // eslint-disable-next-line no-unused-vars
@@ -225,7 +225,7 @@ describe('Articles', () => {
       .expect(401);
   });
 
-  it('should edit article created by authenticated user', async () => {
+  it('Employees can edit their articles', async () => {
     const title = 'edited title';
     const content = 'content edited by user';
     const editRes = await request(app)
@@ -240,7 +240,7 @@ describe('Articles', () => {
     expect(editRes.body.data.article).to.equal(content);
   });
 
-  it('should not edit article created if not authenticated', async () => {
+  it('Employees cannot edit article created if not authenticated', async () => {
     const title = 'edited title';
     const content = 'content edited by user';
     // eslint-disable-next-line no-unused-vars
@@ -253,7 +253,7 @@ describe('Articles', () => {
       .expect(401);
   });
 
-  it('should comment on any article post if user is authenticated', async () => {
+  it('Employees can comment on other colleagues article post.', async () => {
     const content = 'My first comment for testing';
     const commentRes = await request(app)
       .post(`/api/v1/articles/${idArticle}/comment`)
@@ -267,7 +267,7 @@ describe('Articles', () => {
     expect(commentRes.body.data).to.have.property('articleTitle');
   });
 
-  it('should view article post by Id of the article', async () => {
+  it('Employees can view a specific article.', async () => {
     const viewRes = await request(app)
       .get(`/api/v1/articles/${idArticle}/comment`)
       .set('authorization', `Bearer ${token}`)
@@ -278,13 +278,13 @@ describe('Articles', () => {
     expect(viewRes.body.data.comments).to.be.a('array');
   });
 
-  it('should not delete article posted if not authenticated', async () => {
+  it('Employee cannot delete article posted if not authenticated', async () => {
     await request(app)
       .delete(`/api/v1/articles/${idArticle}`)
       .expect(401);
   });
 
-  it('should delete article posted by authenticated user', async () => {
+  it('Employees can delete their articles.', async () => {
     await request(app)
       .delete(`/api/v1/articles/${idArticle}`)
       .set('authorization', `Bearer ${token}`)
@@ -303,14 +303,14 @@ describe('GIFs', () => {
     userGif = gifRes.body;
   });
 
-  it('should create gif post and upload gif to cloudinary', async () => {
+  it('Employees can post gifs.', async () => {
     expect(userGif.status).to.equal('success');
     expect(userGif.data.message).to.equal('gif post successfully posted');
     expect(userGif.data).to.have.property('imageUrl');
     expect(userGif.data).to.have.property('gifId');
   });
 
-  it('should comment on gif post', async () => {
+  it('Employees can comment on other colleagues gif post.', async () => {
     const content = 'testing my gif post comments';
     const viewRes = await request(app)
       .post(`/api/v1/gifs/${userGif.data.gifId}/comment`)
@@ -325,7 +325,7 @@ describe('GIFs', () => {
     expect(viewRes.body.data.comment).to.equal(content);
   });
 
-  it('should view gif posts by id of the gif post', async () => {
+  it('Employees can view a specific gif post.', async () => {
     const viewRes = await request(app)
       .get(`/api/v1/gifs/${userGif.data.gifId}/comment`)
       .set('authorization', `Bearer ${token}`)
@@ -335,7 +335,7 @@ describe('GIFs', () => {
     expect(viewRes.body.data.comments).to.be.a('array');
   });
 
-  it('should view feed of posts', async () => {
+  it('Employees can view all articles and gifs, showing the most recently posted articles or gifs first', async () => {
     const viewRes = await request(app)
       .get('/api/v1/feed')
       .set('authorization', `Bearer ${token}`)
@@ -344,7 +344,7 @@ describe('GIFs', () => {
     expect(viewRes.body.data).to.be.a('array');
   });
 
-  it('should delete gif post by authenticated user', async () => {
+  it('Employees can delete their gifs post.', async () => {
     await request(app)
       .delete(`/api/v1/gifs/${userGif.data.gifId}`)
       .set('authorization', `Bearer ${token}`)
