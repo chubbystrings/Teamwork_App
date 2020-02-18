@@ -1,0 +1,17 @@
+{
+  "name": "emeka-teamwork",
+  "scripts": {},
+  "env": {},
+  "formation": {},
+  "addons": [{
+    "plan": "heroku-postgresql:hobby-dev",
+    "options": {
+      "version": "10"
+    }
+ }],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
