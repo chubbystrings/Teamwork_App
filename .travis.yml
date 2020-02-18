@@ -1,0 +1,22 @@
+language: node_js
+node_js: stable
+services:
+- postgresql
+addons:
+  postgresql: '10'
+  apt:
+    packages:
+    - postgresql-10
+    - postgresql-client-10
+deploy:
+  provider: heroku
+  api_key:
+    secure: piQ6kHFwGxatOeomtay7quQtx///IbqfnsHnUaasdItRLNM9Gw9jEO1Um27OiBon+qB6fTQNvrePXxcC4rtZs/W60UHfvp1716aVX5wNHUygKgXC+ecNzmtI9j7oQMI99rFaGvmOKbd0guddmzFfybkkqd7K/p+hqWEwJ41Cl4ie68VVdaQKtlb5yQiPk9tOd0xrivVS8/VDcGbCndt8q/qDVI2bETc6VYxcD3BIISf/ZCEYMPT65nFgTVzuQ2AO/h2pwxh07gB9XQVZvl8uT54xYkHbJNo2P/H9pc1kJqMPdNi/hhzq84YQqOXtS5v02LDNnZdFivBrVecYCRcEjmA+WSAV9UEjLq3JYKdARnMoBE4b/mfuAIPKElz1R0KEzo5H9IYeF6NL6AQW4F+ZVMpeaLh+hsmJRZjBFNAFVIjRlKa+jCL4R7FPhDT5OEOgnVIZfV1c5n7hG3lA3XGWMM8xT1AEa7GzoKfJwFR4StinUZpc1j+vVloyUArX72muhuFRAK6vwD8l5ANvPmfS77/mND1zstwUbLDb8WoIih1uvh0ifHlXSZTnzWiw7MAmz8cLRmgsB+8LRnbShmbrh9pFz8A21f3e+9S2iuAuepMXE8J8+JLdOKHLUroJLRAtJGK4tfkLz/B7HjFRVNApcQ+YasN3frillsyiGlP8aQY=
+  app: teamwork-app-staging
+  on:
+    repo: chubbystrings/Teamwork_App
+  skip_cleanup: true
+install:
+- npm install
+script:
+- npm test
