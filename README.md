@@ -6,12 +6,12 @@ application is to facilitate more interaction between colleagues and promote tea
 
 ## API ENDPOINTS
 
-    CREATE USER ACCOUNT
+# CREATE USER ACCOUNT
 
 - Request Type : POST
 - Endpoint :  /api/v1/auth/create-user
 
-# Request Body
+        * REQUEST
 
 ```
 {
@@ -26,7 +26,7 @@ application is to facilitate more interaction between colleagues and promote tea
     ...
 }
 ```
-# Response 
+    * RESPONSE
 
 ```
 {
@@ -39,13 +39,13 @@ application is to facilitate more interaction between colleagues and promote tea
     }
 }
 ```
-    * LOGIN A USER
+# LOGIN A USER
 
 - Request Type : POST
 - Endpoint :  /api/v1/auth/signin
 
 
-# Request Body
+        * REQUEST BODY
 
 ```
 {
@@ -54,7 +54,7 @@ application is to facilitate more interaction between colleagues and promote tea
     ...
 }
 ```
-# Response 
+        * RESPONSE
 
 ```
 {
@@ -66,20 +66,20 @@ application is to facilitate more interaction between colleagues and promote tea
     }
 }
 ```
-    * CREATE A GIF POST :
+# CREATE A GIF POST :
 
 - Request Type : POST
 - Endpoint :  /api/v1/gifs
 
 
-# Request Header
+        * REQUEST HEADER
 
 {
     “token” : String ,
     ...
 }
 
-# Request Body
+        * REQUEST BODY
 
 ```
 {
@@ -88,7 +88,7 @@ application is to facilitate more interaction between colleagues and promote tea
     ...
 }
 ```
-# Response 
+        * RESPONSE
 
 ```
 {
@@ -103,20 +103,20 @@ application is to facilitate more interaction between colleagues and promote tea
     }
 }
 ```
-    * CREATE AN ARTICLE POST
+# CREATE AN ARTICLE POST
 
 - Request Type : POST
 - Endpoint :  /api/v1/articles
 
 
-# Request Header
+        * REQUEST HEADER
 
 {
     “token” : String ,
     ...
 }
 
-# Request Body
+        * REQUEST BODY
 
 ```
 {
@@ -125,7 +125,7 @@ application is to facilitate more interaction between colleagues and promote tea
     ...
 }
 ```
-# Response 
+        * RESPONSE
 
 ```
 {
@@ -139,19 +139,19 @@ application is to facilitate more interaction between colleagues and promote tea
     }
 }
 ```
-    * EDIT AN ARTICLE POST
+# EDIT AN ARTICLE POST
 
 - Request Type : PATCH
 - Endpoint :  /api/v1/articles/<:articleid>
 
-# Request Header
+        * REQUEST HEADER
 
 {
     “token” : String ,
     ...
 }
 
-# Request Body
+        * REQUEST BODY
 
 ```
 {
@@ -160,7 +160,7 @@ application is to facilitate more interaction between colleagues and promote tea
     ...
 }
 ```
-# Response 
+        * RESPONSE
 
 ```
 {
@@ -173,19 +173,19 @@ application is to facilitate more interaction between colleagues and promote tea
     }
 }
 ```
-    * DELETE AN ARTICLE POST 
+# DELETE AN ARTICLE POST 
 
 - Request Type : DELETE
 - Endpoint :  /api/v1/articles/<:articleid>
 
-# Request Header
+        * REQUEST HEADER
 
 {
     “token” : String ,
     ...
 }
 
-# Response 
+        * RESPONSE
 
 ```
 {
@@ -196,20 +196,19 @@ application is to facilitate more interaction between colleagues and promote tea
     }
 }
 ```
-    * DELETE GIF POST
+# DELETE GIF POST
 
 - Request Type : DELETE
 - Endpoint :  /api/v1/gifs/<:gifid>
 
-
-# Request Header
+        * REQUEST HEADER
 
 {
     “token” : String ,
     ...
 }
 
-# Response 
+        * RESPONSE
 
 ```
 {
@@ -220,18 +219,19 @@ application is to facilitate more interaction between colleagues and promote tea
     }
 }
 ```
-    * COMMENT ON AN ARTICLE POST
+# COMMENT ON AN ARTICLE POST
+
 - Request Type : POST
 - Endpoint :  /api/v1/articles/<:articleid>/comment
 
-# Request Header
+        * REQUEST HEADER
 
 {
     “token” : String ,
     ...
 }
 
-# Request Body
+        * REQUEST BODY
 
 ```
 {
@@ -239,7 +239,7 @@ application is to facilitate more interaction between colleagues and promote tea
     ...
 }
 ```
-# Response 
+        * RESPONSE
 
 ```
 {
@@ -254,20 +254,20 @@ application is to facilitate more interaction between colleagues and promote tea
     }
 }
 ```
-    * COMMENT ON A GIF POST
+# COMMENT ON A GIF POST
 
 - Request Type : POST
 - Endpoint :  /api/v1/gifs/<:gifid>/comment
 
 
-# Request Header
+        * REQUEST HEADER
 
 {
     “token” : String ,
     ...
 }
 
-# Request Body
+        * REQUEST BODY
 
 ```
 {
@@ -275,7 +275,7 @@ application is to facilitate more interaction between colleagues and promote tea
     ...
 }
 ```
-# Response 
+        * RESPONSE
 
 ```
 {
@@ -289,20 +289,20 @@ application is to facilitate more interaction between colleagues and promote tea
     }
 }
 ```
-    * GET ALL POSTS SHOWING MOST RECENT
+# GET ALL POSTS SHOWING MOST RECENT
 
 - Request Type : GET
 - Endpoint :  /api/v1/feed
 
 
-# Request Header
+        * REQUEST HEADER
 
 {
     “token” : String ,
     ...
 }
 
-# Response 
+        * RESPONSE
 
 ```
 {
@@ -334,20 +334,19 @@ application is to facilitate more interaction between colleagues and promote tea
 }
     
 ```
-    * GET ARTICLE POST BY ID 
+# GET ARTICLE POST BY ID 
 
 - Request Type : GET
 - Endpoint :  /api/v1/articles/<:articleid>
 
-
-# Request Header
+        * REQUEST HEADER
 
 {
     “token” : String ,
     ...
 }
 
-# Response 
+        * RESPONSE
 
 ```
 {
@@ -373,20 +372,20 @@ application is to facilitate more interaction between colleagues and promote tea
 }
     
 ```
-    * GET GIF POST BY ID
+# GET GIF POST BY ID
 
 - Request Type : GET
 - Endpoint :  /api/v1/gifs/<:gifid>
 
 
-# Request Header
+        * REQUEST HEADER
 
 {
     “token” : String ,
     ...
 }
 
-# Response 
+        * RESPONSE
 
 ```
 {
