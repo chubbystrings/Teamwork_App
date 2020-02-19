@@ -3,7 +3,6 @@ const Sanitize = require('../middleware/validation/sanitizeData');
 
 
 exports.viewfeeds = async (request, response) => {
-  console.log("testing.... feed")
   try {
     const { rows } = await pool.query('SELECT * FROM posts LEFT JOIN articles ON posts.post_id = articles.article_post_id LEFT JOIN gifs ON posts.post_id = gifs.post_id ORDER BY post_created_on ASC');
     if (!rows) {

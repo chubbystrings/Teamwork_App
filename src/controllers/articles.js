@@ -219,7 +219,7 @@ exports.viewCurrentUserArticles = async (request, response) => {
       data,
     });
   } catch (error) {
-    return response.status(500).send({ status: "error", error });
+    return response.status(500).send({ status: 'error', error });
   }
 };
 
