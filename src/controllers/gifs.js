@@ -1,6 +1,5 @@
 
 const cloudinary = require('cloudinary').v2;
-const fs = require('fs');
 const pool = require('../db/database');
 const Sanitize = require('../middleware/validation/sanitizeData');
 const gifModel = require('../models/gifModel');
@@ -10,8 +9,6 @@ const gifModel = require('../models/gifModel');
 
 /** ****************************  FUNCTION TO CREATE GIF ******************** */
 exports.uploadGif = async (request, response) => {
-  console.log("testing cloudinary")
-  console.log(process.env.CLOUDINARY_CLOUD_NAME, process.env.CLOUDINARY_API_KEY, process.env.CLOUDINARY_API_SECRET )
   cloudinary.config({
 
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -55,7 +52,6 @@ exports.uploadGif = async (request, response) => {
           });
         }
 
-        console.log('uploaded')
         return result;
       });
 
@@ -181,12 +177,10 @@ exports.deleteGif = async (request, response) => {
     }
 
 
-    console.log('removed from database');
     return cloudinary.uploader.destroy(rows[0].public_id, (error, result) => {
       if (error || !result) {
         return response.status(500).send({ status: 'error', error });
       }
-      console.log('removed from cloud');
       return response.status(200).send({
         status: 'success',
         data: {

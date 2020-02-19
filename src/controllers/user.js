@@ -8,7 +8,6 @@ const userData = require('../models/userModel');
 
 // create User Controller
 exports.addUser = async (request, response) => {
-  
   try {
     const {
       roleId, firstName, lastName, email, password, gender, jobRole, department, address,
@@ -78,7 +77,6 @@ exports.addUser = async (request, response) => {
 
 // login controller
 exports.loginUser = async (request, response) => {
-  
   const { email, password } = request.body;
   const now = new Date();
 
@@ -88,9 +86,9 @@ exports.loginUser = async (request, response) => {
   }
   try {
     // find user with email and password in database
-    
+
     const { rows, rowCount } = await pool.query('SELECT * FROM users WHERE users.email = $1', [email]);
-    
+
     if (!rows || rowCount === 0) { return response.status(401).json({ status: 'error', error: 'email or password is incorrect' }); }
 
     if (!Validation.comparePassword(rows[0].password, password)) {
@@ -110,7 +108,6 @@ exports.loginUser = async (request, response) => {
       },
     });
   } catch (error) {
-    console.log(error)
     return response.status(500).send({ status: 'error', error });
   }
 };
