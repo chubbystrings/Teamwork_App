@@ -30,6 +30,7 @@ const Auth = {
         next();
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       res.status(401).json({
         status: 'error',
         error: 'Invalid Request, Not Authorized',

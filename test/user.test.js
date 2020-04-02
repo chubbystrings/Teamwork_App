@@ -53,7 +53,6 @@ let token;
 let idArticle;
 let userGif;
 before(async () => {
-  console.log('testing...1');
   const res = await request(app)
     .post('/api/v1/auth/signin')
     .send({
@@ -63,7 +62,6 @@ before(async () => {
     .expect(200);
   token = res.body.data.token;
 
-  console.log('testing...2');
   await request(app)
     .post('/api/v1/auth/create-user')
     .set('authorization', `Bearer ${token}`)
@@ -80,7 +78,6 @@ before(async () => {
     })
     .expect(201);
 
-  console.log('testing...3');
   const title = 'my first article';
   const content = 'this is a test for article posting';
   const articleRes = await request(app)
@@ -92,7 +89,6 @@ before(async () => {
     })
     .expect(201);
   idArticle = articleRes.body.data.articleId;
-  console.log('testing...4');
 });
 
 

@@ -31,7 +31,7 @@ exports.createArticle = async (request, response) => {
     const cleanTitle = Sanitize.encode(upperTitle);
     const cleanContent = Sanitize.encode(content);
     const now = new Date();
-    const postData = await pool.query('INSERT INTO posts (post_type, post_created_on) VALUES($1, $2) returning *', [postType, now]);
+    const postData = await pool.query('INSERT INTO posts (post_type, post_author_id, post_created_on) VALUES($1, $2, $3) returning *', [postType, request.user.ID, now]);
     if (!postData.rows || postData.rowCount === 0) {
       return response.status(400).send({
         status: 'error',
@@ -115,6 +115,10 @@ exports.deleteArticle = async (request, response) => {
       return response.status(404).send({ status: 'error', error: 'article not found or unauthorized' });
     }
 
+    const deletedPostData = await pool.query('DELETE FROM posts WHERE post_id = $1 AND post_type = $2 returning *', [data.rows[0].article_post_id, 'article']);
+    await pool.query('DELETE FROM comments WHERE post = $1', [deletedPostData.rows[0].post_id]);
+    await pool.query('DELETE FROM comments_article WHERE comments_article_id = $1', [data.rows[0].article_id]);
+
     return response.status(200).send({
       status: 'success',
       data: {
@@ -132,7 +136,7 @@ exports.viewArticleById = async (request, response) => {
   try {
     const articleId = request.params.articleid;
 
-    const { rows, rowCount } = await pool.query('SELECT * FROM articles WHERE article_id = $1', [articleId]);
+    const { rows, rowCount } = await pool.query('SELECT article_id, article_post_id, article_title, content, article_author, article_created_on, article_updated_on, team_id, first_name, last_name, post_id, post_type FROM articles LEFT JOIN users ON articles.article_author=users.team_id LEFT JOIN posts ON articles.article_post_id=posts.post_id WHERE article_id = $1', [articleId]);
 
     if (!rows || rowCount === 0) {
       return response.status(400).send({
@@ -141,8 +145,13 @@ exports.viewArticleById = async (request, response) => {
       });
     }
 
+    const likeData = await pool.query('SELECT * FROM likes WHERE like_post_id = $1', [rows[0].article_post_id]);
+    // eslint-disable-next-line no-console
+    // eslint-disable-next-line max-len
+    const currentUserLiked = !!likeData.rows.filter((l) => l.like_user_id === request.user.ID).length;
 
-    const commentsData = await pool.query('SELECT * FROM comments INNER JOIN comments_article ON comments.comment_id = comments_article.comment_id WHERE comments_article.article_id = $1', [articleId]);
+    // eslint-disable-next-line no-console
+    const commentsData = await pool.query('SELECT comments.comment_id, author, comment_body, comments.created_on, comments_article.comment_id, first_name, last_name FROM comments INNER JOIN comments_article ON comments.comment_id = comments_article.comment_id LEFT JOIN users ON comments.author = users.team_id WHERE comments_article.article_id = $1 ORDER BY comments.created_on DESC', [articleId]);
     const comments = [];
     if (!commentsData.rows || commentsData.rowCount === 0) {
       return response.status(200).send({
@@ -151,6 +160,15 @@ exports.viewArticleById = async (request, response) => {
           id: rows[0].article_id,
           title: Sanitize.decode(rows[0].article_title),
           article: Sanitize.decode(rows[0].content),
+          postAuthorId: rows[0].article_author,
+          postType: rows[0].post_type,
+          postId: rows[0].article_post_id,
+          likesNumber: likeData.rowCount,
+          currentUserLiked,
+          authorFirstName: rows[0].first_name,
+          authorLastName: rows[0].last_name,
+          createdOn: rows[0].article_created_on,
+          updatedOn: rows[0].article_updated_on,
           comments,
         },
       });
@@ -161,7 +179,10 @@ exports.viewArticleById = async (request, response) => {
       comments.push({
         commentId: row.comment_id,
         comment: Sanitize.decode(row.comment_body),
-        authorId: row.author,
+        commentAuthorId: row.author,
+        firstName: row.first_name,
+        lastName: row.last_name,
+        createdOn: row.created_on,
       });
     });
     return response.status(200).send({
@@ -170,6 +191,15 @@ exports.viewArticleById = async (request, response) => {
         id: rows[0].article_id,
         title: Sanitize.decode(rows[0].article_title),
         article: Sanitize.decode(rows[0].content),
+        postAuthorId: rows[0].article_author,
+        postType: rows[0].post_type,
+        postId: rows[0].article_post_id,
+        likesNumber: likeData.rowCount,
+        currentUserLiked,
+        authorFirstName: rows[0].first_name,
+        authorLastName: rows[0].last_name,
+        createdOn: rows[0].article_created_on,
+        updatedOn: rows[0].article_updated_on,
         comments,
 
       },

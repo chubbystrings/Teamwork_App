@@ -39,7 +39,8 @@ const Validation = {
 
   checkForChar(field) {
     const char = /^[a-zA-Z]+$/;
-    if (char.test(field)) {
+    const data = field.trim();
+    if (char.test(data)) {
       return true;
     }
     return false;
@@ -51,10 +52,10 @@ const Validation = {
     if (!/^[a-zA-Z]+$/.test(gender)) {
       return false;
     }
-    if (!/^[a-z\sA-Z]+$/.test(jobRole)) {
+    if (!/^[0-9a-z\sA-Z]+$/.test(jobRole)) {
       return false;
     }
-    if (!/^[a-zA-Z]+$/.test(department)) {
+    if (!/^[0-9a-z\sA-Z]+$/.test(department)) {
       return false;
     }
     if (address.length > 300) {

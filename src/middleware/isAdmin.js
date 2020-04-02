@@ -6,6 +6,7 @@ const Admin = {
 
   // eslint-disable-next-line consistent-return
   async verifyAdminToken(req, res, next) {
+    // eslint-disable-next-line no-console
     try {
       if (!req.headers.authorization) {
         throw Error;
@@ -36,6 +37,7 @@ const Admin = {
       req.user = { ID: decodedToken.teamId };
       next();
     } catch (error) {
+      // eslint-disable-next-line no-console
       return res.status(401).json({
         status: 'error',
         error: 'Invalid Request or User not Authorized',

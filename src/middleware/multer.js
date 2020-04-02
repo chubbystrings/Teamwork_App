@@ -13,7 +13,7 @@ const upload = multer({
     fileSize: 1000000,
   },
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(gif|jpg)$/)) {
+    if (!file.originalname.match(/\.(gif|jpg|png)$/)) {
       return cb(new Error('please upload a gif file'));
     }
     return cb(undefined, true);

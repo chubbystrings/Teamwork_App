@@ -28,7 +28,7 @@ exports.postArticleComments = async (request, response) => {
       });
     }
 
-    const data = await pool.query('INSERT INTO comments (author, comment_body, created_on) VALUES ($1, $2, $3) returning *', [request.user.ID, cleanContent, now]);
+    const data = await pool.query('INSERT INTO comments (author, comment_body, post, created_on) VALUES ($1, $2, $3, $4) returning *', [request.user.ID, cleanContent, articleData.rows[0].article_post_id, now]);
 
     if (!data.rows || data.rowCount === 0) {
       return response.status(401).send({ status: 'error', error: 'cannot post comments' });
@@ -43,6 +43,7 @@ exports.postArticleComments = async (request, response) => {
       status: 'success',
       data: {
         message: 'comment successfully created',
+        id: data.rows[0].comment_id,
         createdOn: data.rows[0].created_on,
         articleTitle: Sanitize.decode(articleData.rows[0].article_title),
         article: Sanitize.decode(articleData.rows[0].content),
@@ -107,7 +108,7 @@ exports.postGifComments = async (request, response) => {
       });
     }
 
-    const data = await pool.query('INSERT INTO comments (author, comment_body, created_on) VALUES ($1, $2, $3) returning *', [request.user.ID, cleanContent, now]);
+    const data = await pool.query('INSERT INTO comments (author, comment_body, post, created_on) VALUES ($1, $2, $3, $4) returning *', [request.user.ID, cleanContent, gifData.rows[0].gif_post_id, now]);
 
     if (!data.rows || data.rowCount === 0) {
       return response.status(401).send({ status: 'error', error: 'invalid request' });
@@ -122,6 +123,7 @@ exports.postGifComments = async (request, response) => {
       status: 'success',
       data: {
         message: 'comment successfully created',
+        id: data.rows[0].comment_id,
         createdOn: data.rows[0].created_on,
         gifTitle: Sanitize.decode(gifData.rows[0].title),
         comment: Sanitize.decode(data.rows[0].comment_body),
