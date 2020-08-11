@@ -15,11 +15,10 @@ deploy:
   app: teamwork-app-staging
   on:
     repo: chubbystrings/Teamwork_App
-  skip_cleanup: true
 install:
 - npm install
 script:
-- npm test
+- npm run test-prod
 env:
   global:
     secure: G74dyVXyP3xXMjWD2kWZYGuacewqA7Mc5sZ7ig8L+2MhV0v+GLqeVwy2nw/JirdfJmqCnGypyLbY+USMb89TPp02ghEmSarBeKCF9GtjLasxs8WNu8qmGEbOcaKYGJyUDtPie+1wWB0FoQbSnxFzdC9r7fJwu2maVMdTkiZSXjElt0yybbXU3aqV9MkhisnLpxsc/vK3fE580py4CyHr4wYQhXOPxWq+XiRXDCgucbiLHhqBS2YqHnYyUgXC5B8hP60SSNR9TyjfvoYp/FhcvLrQ4PdcawUtxckBBNF16tQVUY2eARAGz/1KM/DRHE1gMQuby55Qzr38S3A+tNJwvhVn87kba5rg4WIzoyc6kK1iKasoRMPDBicn/Qwk3PpqKyrITrYXPs5sYciB5rh9rNjWiJRZ2YeJI6jlN0aIBOQJSUDG/9lIkjHMWLFqWqXB252egI5aa1J/Aa0sROpXJuNiCqrDtsZh7NpvWpy+E3uW0ZIq6uVFMZpevWm5+cs/p/gO/QZFXeik32HGNO4cd6JT6AHfxsYz7iAhcxBLnzB5EbIexZaCpzfEIiDf1nBDTaMeKZaiUwhxJocwkDxTNHQDbJxZWB65+3fYFii8o+EqWve9DtzhI95GA6308XTMoDDDnAy6LP2r9JnhTn/SLYpc6r41VWUL3kf11dzOZyI=
