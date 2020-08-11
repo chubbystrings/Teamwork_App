@@ -53,42 +53,46 @@ let token;
 let idArticle;
 let userGif;
 before(async () => {
-  const res = await request(app)
-    .post('/api/v1/auth/signin')
-    .send({
-      email: 'emekaokwor@gmail.com',
-      password: 'westcrew10',
-    })
-    .expect(200);
-  token = res.body.data.token;
+  try {
+    const res = await request(app)
+      .post('/api/v1/auth/signin')
+      .send({
+        email: 'emekaokwor@gmail.com',
+        password: 'westcrew10',
+      })
+      .expect(200);
+    token = res.body.data.token;
 
-  await request(app)
-    .post('/api/v1/auth/create-user')
-    .set('authorization', `Bearer ${token}`)
-    .send({
-      roleId: '2',
-      firstName: 'maria',
-      lastName: 'okwor',
-      email: 'mariaokwor@gmail.com',
-      password: 'westcrew10',
-      gender: 'female',
-      jobRole: 'cutsomer Service',
-      department: 'Administrative',
-      address: '3rd avenue festac lagos',
-    })
-    .expect(201);
+    await request(app)
+      .post('/api/v1/auth/create-user')
+      .set('authorization', `Bearer ${token}`)
+      .send({
+        roleId: '2',
+        firstName: 'maria',
+        lastName: 'okwor',
+        email: 'mariaokwor@gmail.com',
+        password: 'westcrew10',
+        gender: 'female',
+        jobRole: 'cutsomer Service',
+        department: 'Administrative',
+        address: '3rd avenue festac lagos',
+      })
+      .expect(201);
 
-  const title = 'my first article';
-  const content = 'this is a test for article posting';
-  const articleRes = await request(app)
-    .post('/api/v1/articles')
-    .set('authorization', `Bearer ${token}`)
-    .send({
-      title,
-      content,
-    })
-    .expect(201);
-  idArticle = articleRes.body.data.articleId;
+    const title = 'my first article';
+    const content = 'this is a test for article posting';
+    const articleRes = await request(app)
+      .post('/api/v1/articles')
+      .set('authorization', `Bearer ${token}`)
+      .send({
+        title,
+        content,
+      })
+      .expect(201);
+    idArticle = articleRes.body.data.articleId;
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 
