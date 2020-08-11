@@ -7,7 +7,6 @@ const pool = require('../src/db/database');
 
 const { expect } = chai;
 
-
 // HELPER FUNCTION DECLARATIONS
 
 const deleteArticleMany = async () => {
@@ -30,7 +29,6 @@ const deletePosts = async () => {
   return true;
 };
 
-
 const deleteMany = async () => {
   const roleId = 2;
   const data = await pool.query('DELETE FROM users WHERE role_id = $1 returning *', [roleId]);
@@ -45,7 +43,6 @@ const deleteGifPost = async () => {
   await pool.query('DELETE FROM gifs');
   return true;
 };
-
 
 // TEST.................................
 
@@ -95,7 +92,6 @@ before(async () => {
   }
 });
 
-
 after(async () => {
   await deleteMany();
   await deleteArticleMany();
@@ -104,7 +100,6 @@ after(async () => {
   await deleteGifPost();
   return true;
 });
-
 
 // TESTS FOR USERS AUTHENTICATION
 describe('Users test', () => {
@@ -125,7 +120,6 @@ describe('Users test', () => {
       })
       .expect(201);
   });
-
 
   it('Employee cannot create employee user cannot', async () => {
     const userRes = await request(app)
@@ -192,7 +186,6 @@ describe('Users test', () => {
       .expect(401);
   });
 });
-
 
 /** *********************** ARTICLE TESTS***************** */
 
