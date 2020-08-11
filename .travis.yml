@@ -15,7 +15,6 @@ deploy:
   app: teamwork-app-staging
   on:
     repo: chubbystrings/Teamwork_App
-  skip_cleanup: true
 install:
 - npm install
 script:
