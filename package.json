@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "env-cmd ./config/test.env mocha --timeout 15000",
-    "test-prod": "mocha",
+    "test-prod": "mocha --timeout 10000",
     "start": "node src/server.js",
     "dev": " env-cmd ./config/dev.env nodemon src/server.js"
   },
